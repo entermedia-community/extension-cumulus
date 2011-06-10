@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="default" name="upgrade">
+
+  <target name="default" depends="clean, update-dependencies, unwar, baseupgrade"/>
+   
+    <property name="appname" value="${ant.project.name}"/>
+    <property name="org" value="eInnovation, inc."/>
+    <property name="build" location="./tmp/oe_upgrade"/>
+    <property name="wardir" location="${build}/wartmp"/>
+    <property name="webinf" location="WEB-INF"/>
+    <property name="workdir" location="${build}/unpacked" />
+    
+    
+  <target name="clean">
+  	<!-- do nothing -->
+  </target>
+  
+ 	
+  <target name="update-dependencies" depends="clean">
+	    <delete dir="${build}"/>
+		<mkdir dir="${build}"/>
+  	
+	<get src="http://dev.openedit.org/anthill/projects/entermedia/ROOT.war" dest="${build}/ROOT.war" />	
+
+  </target>
+    
+  <target name="unwar" depends="update-dependencies">
+  	<mkdir dir="${build}/unpacked"/>
+    <unwar dest="${build}/unpacked">
+      <fileset dir="${build}">
+        <include name="ROOT.war"/>
+      </fileset>
+    </unwar>
+  </target>
+	
+  <target name="baseupgrade" depends="unwar">
+    
+    <delete quiet="true">
+      <fileset dir="../base/" />
+    </delete>
+	<copy todir="../base/" preservelastmodified="true" overwrite="true">
+      <fileset dir="${workdir}/base/" />
+    </copy>
+  	
+    <delete quiet="true">
+      <fileset dir="./lib" />
+    </delete>
+	<copy todir="../WEB-INF/lib" preservelastmodified="true" overwrite="true">
+      <fileset dir="${workdir}/WEB-INF/lib"/>
+    </copy>
+
+    <touch file="web.xml"/>
+    <!-- delete dir="${build}"/ -->
+  	
+	<get src="http://dev.openedit.org/anthill/projects/entermedia/install.xml" dest="install.xml"/>  
+
+  </target>
+
+	
+  	<target name="archivedir" depends="unwar">
+
+  		
+	<copy todir="../entermedia/" preservelastmodified="true" overwrite="true">
+      <fileset dir="${workdir}/entermedia" />
+    </copy>
+	</target>
+</project>

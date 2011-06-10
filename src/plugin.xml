@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+  	<bean id="cumulusMediaArchive" class="org.openedit.entermedia.MediaArchive" singleton="false" >
+		<property name="mediaEventHandler"><ref bean="mediaEventHandler"/></property>
+		<property name="moduleManager"><ref bean="moduleManager"/></property>
+		<property name="pageManager"><ref bean="pageManager" /></property>
+		<property name="searchFilterArchive"><ref bean="searchFilterArchive"/></property>
+		<property name="searcherManager"><ref bean="searcherManager"/></property>
+		<property name="catalogImportConverter"><ref bean="cumulusAssetCompositeConverter"/></property>
+		<property name="assetSecurityArchive"><ref bean="assetSecurityArchive"/></property> 
+		<property name="assetStatsManager">
+			<ref bean="assetStatsManager" />
+		</property>
+		<!-- No asset importer -->
+	</bean>
+  
+  <bean id="cumulusAssetCompositeConverter" class="org.openedit.entermedia.scanner.CompositeConverter">
+	<property name="moduleManager"><ref bean="moduleManager"/></property>
+	<property name="catalogConverters">
+  		<list>
+			<value>cumulusSyncConverter</value>
+			<value>cumulusLogConverter</value>
+			<value>cumulusUserConverter</value>
+			<value>sqlImportConverter</value>
+		</list>
+	</property>
+  </bean>
+
+
+
+  <bean id="cumulusSyncConverter" class="com.openedit.archive.cumulus.CumulusSyncConverter">
+		<property name="cumulusConnectionPool"><ref bean="cumulusConnectionPool" /></property>
+  		<property name="pageManager"><ref bean="pageManager" /></property>
+		<property name="xmlArchive"><ref bean="xmlArchive"/></property>
+  	  	<property name="enterMedia"><ref bean="enterMedia" /></property>  	
+  	  	<property name="webServer"><ref bean="WebServer"/></property>
+
+  </bean>
+
+  <bean id="cumulusUserConverter" class="com.openedit.archive.cumulus.CumulusUserConverter">
+		<property name="userManager"><ref bean="userManager" /></property>  	
+		<property name="cumulusConnectionPool"><ref bean="cumulusConnectionPool" /></property>
+  	  	<property name="pageManager"><ref bean="pageManager" /></property>
+  	  	<property name="enterMedia"><ref bean="enterMedia" /></property>  	
+  </bean>
+
+  <bean id="cumulusLogConverter" class="com.openedit.archive.cumulus.CumulusLogConverter" >
+  	  	<property name="pageManager"><ref bean="pageManager" /></property>  	
+  	  	<property name="enterMedia"><ref bean="enterMedia" /></property>  	
+  </bean>
+
+  <bean id="cumulusConnectionPool" class="com.openedit.archive.cumulus.CumulusConnectionPool" >
+  	<property name="shutdownList"><ref bean="moduleManager" /></property>
+  	<property name="pageManager"><ref bean="pageManager" /></property>
+  </bean> 
+  
+  <bean id="cumulusAction" class="com.openedit.archive.cumulus.CumulusAction"
+  	singleton="false" >
+  	<property name="cumulusSyncConverter"><ref bean="cumulusSyncConverter"/></property>
+  	<property name="userManager"><ref bean="userManager" /></property>  	
+  </bean>
+
+
+	<bean id="cumulusSearcher" class="com.openedit.archive.cumulus.CumulusSearcher">
+	</bean>
+	
+	<bean id="cumulusLogSearcher" 
+		class="org.openedit.logger.LuceneLogSearcher" singleton="false" >
+		<property name="rootDirectory">
+			<bean class="java.io.File">
+				<constructor-arg><ref bean="root"/></constructor-arg>
+				<constructor-arg><value>/WEB-INF/logs</value></constructor-arg>
+			</bean>
+		</property>
+		<property name="pageManager"><ref bean="pageManager"/></property>
+	</bean>
+	
+	
+  <bean id="cumulusMigration" class="com.openedit.archive.cumulus.CumulusMigration">
+		<property name="cumulusConnectionPool"><ref bean="cumulusConnectionPool" /></property>
+	</bean>
+
+	
+</beans>

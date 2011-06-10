@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE web-app
+	PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+	"http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+	<display-name>Open Edit</display-name>
+	
+	<cache-mapping url-pattern='*.gif'  expires='1h'/>
+  	<cache-mapping url-pattern='*.jpg'       expires='25h'/>
+
+	<filter>
+		<filter-name>OEFilter</filter-name>
+		<filter-class>com.openedit.servlet.OpenEditFilter</filter-class>
+	</filter>
+		
+	<!--filter>
+		<filter-name>OeWatermarkFilter1</filter-name>
+		<filter-class>com.openedit.archive.servlet.WatermarkFilter</filter-class>
+		<init-param>
+      		<param-name>pngwatermark</param-name>
+      		<param-value>/testcatalog/layout/media/watermark.png</param-value>
+   		</init-param>
+	</filter -->
+			
+
+<!-- Comment in as needed, only works on jpgs  
+	<filter-mapping>
+		<filter-name>OeWatermarkFilter1</filter-name>
+		<url-pattern>/testcatalog/downloads/preview/cache/*.jpg</url-pattern>
+	</filter-mapping>
+-->
+
+	<filter-mapping>
+		<filter-name>OEFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+
+
+		
+</web-app>
