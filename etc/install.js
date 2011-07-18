@@ -3,7 +3,7 @@ importPackage( Packages.java.util );
 importPackage( Packages.java.lang );
 importPackage( Packages.com.openedit.modules.update );
 
-var war = "http://dev.entermediasoftware.com/projects/entermedia-cumulus/ROOT.war";
+var war = "http://dev.entermediasoftware.com/jenkins/job/entermedia-cumulus/lastSuccessfulBuild/artifact/deploy/entermedia-cumulus/ROOT.war";
 
 var root = moduleManager.getBean("root").getAbsolutePath();
 var web = root + "/WEB-INF";
