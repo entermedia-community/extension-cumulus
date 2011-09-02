@@ -2,8 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="tests"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/entermedia-server"/>
 	<classpathentry kind="lib" path="lib/compile/CumulusJC.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
